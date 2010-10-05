@@ -1,0 +1,13 @@
+stoptime=100.0
+foobar="barfoo"
+myint=123
+
+[A]
+  np=2
+  binary=./helloworld.py
+  args=hey out
+[B]
+  np=3
+  binary=./helloworld.py
+  args=ho in
+  A.hey -> B.ho [27]

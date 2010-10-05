@@ -1,0 +1,108 @@
+
+Installation
+============
+
+Pre-Install
+-----------
+
+1) Install the MUSIC library (http://software.incf.org/software/music)
+2) Install mpi4py
+3) Install numpy
+
+Install boostmusic
+------------------
+
+1) Copy setup.cfg.example to setup.cfg and edit the paths to point to 
+your mpich2, music, numpy and mpi4py include and lib directories.
+
+2) Build the module 
+
+$ python setup.py build
+
+3) Install it, either
+
+$ sudo python setup.py install
+or
+$ sudo python setup.py install --prefix=$HOME/my/own/dir
+(the second requires PYTHONPATH to be set accordingly)
+
+Is it working?
+--------------
+
+Enter the 'examples' directory and execute
+
+$ mpiexec -n 2 music gen_recv.music
+
+It should generate a whole bunch of output like:
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+...
+
+generator [6] event at 1.978000 s
+Warning: gen lag of 0.000967 seconds, skipping 1 ticks
+Warning: gen lag of 0.002124 seconds, skipping 3 ticks
+Warning: gen lag of 0.000405 seconds, skipping 1 ticks
+receiver t=1.986000 [6] event t=1.978000
+Warning: gen lag of 0.000406 seconds, skipping 1 ticks
+generator done. elapsed t=1.999805 s
+receiver done. elapsed t=1.999599 s
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+$ mpiexec -n 5 music helloworld.music
+It should generate a whole bunch of output like:
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+...
+Connected?:  True
+Config: foobar=barfoo
+Config: stoptime=100.0
+Config: myint=123
+Time=0.000000
+Time=0.000000
+Time=0.000100
+Time=0.000100
+Time=0.000000Time=0.000000Time=0.000000
+
+
+Time=0.000100Time=0.000100
+
+Time=0.000100
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+OK, looks good?  You ready to play.
+
+
+Toubleshooting
+==============
+
+0) Make sure the music executable is in your path
+
+1) Make sure a normal python instance can import boostmusic
+without an ImportError.
+
+2) find the path to the boostmusic package and run ldd on _music.so
+to check that the linker is finding all the libraries it needs.
+
+If there are any "not found", set your LD_LIBRARY_PATH, /etc/ld.conf
+or 'rpath' in setup.cfg accordingly.  Arguably the latter is the best solution.
+
+3) On Build:  'error: missing binary operator before token "("'
+
+If you get something like the error when building:
+
+In file included from /usr/include/boost/mpl/aux_/arithmetic_op.hpp:26,
+                 from /usr/include/boost/mpl/minus.hpp:19,
+                 from /usr/include/boost/mpl/vector/aux_/iterator.hpp:20,
+                 from /usr/include/boost/mpl/vector/aux_/vector0.hpp:22,
+                 from /usr/include/boost/mpl/vector/aux_/clear.hpp:18,
+                 from /usr/include/boost/mpl/vector/vector0.hpp:24,
+                 from /usr/include/boost/mpl/vector/vector10.hpp:18,
+                 from /usr/include/boost/mpl/vector/vector20.hpp:18,
+                 from /usr/include/boost/python/detail/type_list.hpp:28,
+                 from /usr/include/boost/python/args.hpp:13,
+                 from /usr/include/boost/python.hpp:11,
+                 from boostmusic/cpp_src/music.cpp:13:
+/usr/include/boost/mpl/aux_/numeric_op.hpp:290:31: error: missing binary operator before token "("
+
+I got this error when using boost 1.35 and gcc 4.4 together.
+
+Upgrading to boost 1.40 fixes the problem.
+

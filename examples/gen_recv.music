@@ -1,0 +1,16 @@
+stoptime=2.00
+dt=1e-3
+mindelay = 0.01
+foobar="hello"
+maxbuffered=5
+[gen]
+  np=1
+  binary=./eventgenerator.py
+
+[recv]
+  np=1
+  binary=./eventreceiver.py
+
+
+gen.out -> recv.in [10]
+n=recv.dummy_out -> gen.dummy_in [1]

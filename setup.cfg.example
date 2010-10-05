@@ -1,0 +1,6 @@
+[build_ext]
+library_dirs=/opt/mpich2/lib:/opt/music/lib
+rpath=/opt/mpich2/lib:/opt/music/lib
+# numpy inc_dir -> print numpy.get_include()
+# mpi4py inc_dir -> print mpi4py.get_include()
+include_dirs=/opt/music/include/:/opt/mpich2/include:/usr/lib/python2.6/dist-packages/numpy/core/include:/usr/local/lib/python2.6/dist-packages/mpi4py/include

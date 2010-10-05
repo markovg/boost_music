@@ -1,0 +1,10 @@
+The test suite for boostmusic is currently lacking of distributed tests,
+as I'm not really sure how to handle starting music from python!
+
+Should I write a test_all.py which issues os calls which then 
+load the correct .music files and programs?  Yeah maybe thats it ...
+
+Comments?
+
+
+

@@ -1,0 +1,7 @@
+# time step in ms
+timestep: 1.0
+# realtime to simulated time scale factor
+scaletime: 1.0
+# window title
+title: PyMUSIC viewevents port demo
+

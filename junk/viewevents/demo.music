@@ -1,0 +1,11 @@
+stoptime=1.0
+foobar="hello"
+[from]
+  np=3
+  binary=eventgenerator
+  args=-t 0.001 -b 5 27
+[view]
+  np=1
+  binary=./viewevents.py
+  args=-c config.yaml neuronGrid.yaml
+  from.out -> view.plot [27]
