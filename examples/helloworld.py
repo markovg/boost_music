@@ -6,17 +6,29 @@ MUSIC Hello World
 import sys
 import boostmusic as music
 
-print "1:", sys.argv
+
+s1 = sys.argv
 setup = music.Setup (sys.argv)
 from mpi4py import MPI
-print "2:", sys.argv
+s2 = sys.argv
 
 
 msg = "Hello, World! I am process %d of %d.\n"
-comm = setup.communicator ()
+comm = setup.communicator()
 myrank = comm.Get_rank()
 nprocs = comm.Get_size()
-sys.stdout.write(msg % (myrank, nprocs))
+
+comm_world = MPI.COMM_WORLD
+
+for i in range(comm_world.Get_size()):
+    comm_world.Barrier()
+    if comm_world.Get_rank()==i:
+        print "1:", s1
+        print "2:", s2
+        print msg % (myrank, nprocs)
+        sys.stdout.flush()
+
+comm_world.Barrier()
 
 port_id = sys.argv[1]
 mode = sys.argv[2]
@@ -46,6 +58,9 @@ if mode=="in":
     index_map = music.LinearIndex(music.GlobalIndex(0),27)
 
     evport.map(index_map,evh,0.0)
+
+
+
 
 
 print "Connected?: ", evport.isConnected()

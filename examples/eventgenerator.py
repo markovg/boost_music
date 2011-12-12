@@ -79,7 +79,7 @@ while t<stoptime:
         #print "Warning: gen lead of %f seconds, sleeping %f s" % (Dt,s)
         music.nanosleep(s)
     elif Dt<0:
-        n = ceil(-Dt / dt)
+        n = int(ceil(-Dt / dt))
         print "Warning: gen lag of %f seconds, skipping %d ticks" % (-Dt,n)
         for i in range(n):
             runtime.tick()
